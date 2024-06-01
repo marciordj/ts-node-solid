@@ -4,7 +4,7 @@ import { RegisterUseCase } from '@/use-cases/register';
 import { FastifyReply, FastifyRequest } from 'fastify';
 import { z } from 'zod';
 
-export async function registes(request: FastifyRequest, reply: FastifyReply) {
+export async function register(request: FastifyRequest, reply: FastifyReply) {
 	const registerBodySchema = z.object({
 		name: z.string(),
 		email: z.string(),
@@ -22,13 +22,12 @@ export async function registes(request: FastifyRequest, reply: FastifyReply) {
 			email,
 			password
 		});
-
-		return reply.status(201).send();
-	} catch(err) {
+	} catch (err) {
 		if (err instanceof UserAlreadyExistError) {
 			return reply.status(409).send();
 		}
-
-		return reply.status(200).send();
+		throw err;
 	}
+
+	return reply.status(200).send();
 }

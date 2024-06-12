@@ -1,5 +1,4 @@
-import { expect, test, describe, it } from 'vitest';
-import { PrismaUsersRepository } from '@/repositories/prisma/prisma-users-repository';
+import { expect, describe, it } from 'vitest';
 import { RegisterUseCase } from './register';
 import { compare } from 'bcryptjs';
 import { InmemoryUserRepository } from '@/repositories/in-memory/in-memory-users-repository';
@@ -16,10 +15,10 @@ describe('Register use case', () => {
 			name: 'Marcio',
 			email: 'marcio@email.com',
 			password: '321321'
-		})
+		});
 
 		expect(user.id).toEqual(expect.any(String));
-	})
+	});
 
 	it('Should hash user password upen registration', async () => {
 		const inMemoryUserRepository = new InmemoryUserRepository();
@@ -29,15 +28,15 @@ describe('Register use case', () => {
 			name: 'Marcio',
 			email: 'marcio@email.com',
 			password: '321321'
-		})
+		});
 
 		const isPasswordCorrectlyHashed = await compare(
 			'321321',
 			user.password_hash
-		)
+		);
 
-		expect(isPasswordCorrectlyHashed).toBe(true)
-	})
+		expect(isPasswordCorrectlyHashed).toBe(true);
+	});
 
 	it('Should not be able to register with same email', async () => {
 		const inMemoryUserRepository = new InmemoryUserRepository();
@@ -49,12 +48,12 @@ describe('Register use case', () => {
 			name: 'Marcio',
 			email,
 			password: '321321'
-		})
+		});
 
 		expect(() => registerUseCase.execute({
 			name: 'Marcio',
 			email,
 			password: '321321'
-		})).rejects.toBeInstanceOf(UserAlreadyExistError)
-	})
-})
+		})).rejects.toBeInstanceOf(UserAlreadyExistError);
+	});
+});

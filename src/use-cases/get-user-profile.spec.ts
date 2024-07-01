@@ -28,11 +28,11 @@ describe('Get user profile use case', () => {
 		expect(user.name).toEqual('Marcio Rodrigues');
 	});
 
-  it('Should not be able to get user profile with wrong id', async () => {
-		expect(() =>
-      sut.execute({
-        userId: 'non-existing-id'
-      })
-    ).rejects.toBeInstanceOf(ResourceNotFoundError)
+	it('Should not be able to get user profile with wrong id', async () => {
+		await expect(() =>
+			sut.execute({
+				userId: 'non-existing-id'
+			})
+		).rejects.toBeInstanceOf(ResourceNotFoundError);
 	});
 });
